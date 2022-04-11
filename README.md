@@ -1,19 +1,75 @@
 # whale
-a flutter navigation 2.0 router for mobile app.
+a whale is navigator developed using navigation 2.0.
+
+## Contents
+
+1.Navigation
+
+2.Dialog
+
+3.Global
 
 ---
-## Navigation Example
-### Push & Push All
+## Navigation Usage
+### Push
+You can push new page on specific page with `Whale.go()` method. It needs `on` argument and `to` argument which you want to push on page stack.
+```dart
+Whale.go(on: '/home', to: AlarmView(), key: '/alarm');
+```
+####Q. Why `to` argument type is Widget?
+because of some projects which communicate with each page with callback function see below:
+```dart
+Whale.go(
+  on: '/home',
+  to: PostAddview(
+    onPostAdded: (post){
+      // some projects use callback to communicate with each page
+      _addPost(post);  
+    }
+  ),
+  key: '/post-add',
+);
+```
 
-### Pop & Pop Until
+### Pop
+Like push operation, you can pop specific page by key or context.
+```dart
+Whale.popByContext(context);
+// or
+Whale.popByKey('/home');
+```
 
-### Replace & Replace All
-asd
+### Replace
+If you want to replace specific page to other, do below:
+```dart
+Whale.replaceByContext(from: context, to: AlarmView());
+Whale.replaceByContext(from: '/home', to: AlarmView());
+```
+
+
+#### Q. What is occur if I 
+Don't worry. Whale automatically generates value key by using view widget's class name.
+If you 
+
+```dart
+Whale.go(on:'/home', to: AlarmView());
+
+// It will generates ValueKey('AlarmView') to identify page.
+
+// So, you can do this below:
+
+Whale.popByKey('/AlarmView');
+```
 
 ---
 ## Dialog Example
 
-### Showing dialog on specific page
+Whale manages dialog stack per page.
+So, If you want to show dialog, you should select a page which will present it.
+
+
+
+### Show Dialog
 ```dart
 Whale.showDialogWithContext(
   context,
@@ -30,6 +86,8 @@ Whale.showDialogWithContext(
 
 ---
 ## Util Function
+
+For convenience, Whale gives you some streams and methods. 
 
 ### Get current page stack
 You can get current page stack
