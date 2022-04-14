@@ -9,65 +9,50 @@ a whale is navigator developed using navigation 2.0.
 
 3.Global
 
----
 ## Navigation Usage
 ### Push
 You can push new page on specific page with `Whale.go()` method. It needs `on` argument and `to` argument which you want to push on page stack.
 ```dart
-Whale.go(on: '/home', to: AlarmView(), key: '/alarm');
+// These three method's exactly same operation
+
+Whale.goByName(from: '/home', to: AlarmView());
+Whale.goByContext(from: context, to: AlarmView());
+Whale.goByView(from: this or this.widget, to: AlarmView());
 ```
 ####Q. Why `to` argument type is Widget?
 because of some projects which communicate with each page with callback function see below:
 ```dart
-Whale.go(
-  on: '/home',
+Whale.goByName(
+  from: '/home',
   to: PostAddview(
     onPostAdded: (post){
       // some projects use callback to communicate with each page
       _addPost(post);  
     }
   ),
-  key: '/post-add',
+  toName: '/post-add',
 );
 ```
 
 ### Pop
 Like push operation, you can pop specific page by key or context.
 ```dart
-Whale.popByContext(context);
-// or
-Whale.popByKey('/home');
+Whale.backByContext(context);
+Whale.backByName('/home');
+Whale.backByView(this or this.widget);
 ```
 
 ### Replace
 If you want to replace specific page to other, do below:
 ```dart
 Whale.replaceByContext(from: context, to: AlarmView());
-Whale.replaceByContext(from: '/home', to: AlarmView());
+Whale.replaceByName(from: '/home', to: AlarmView());
+Whale.replaceByView(from: this or this.widget, to: AlarmView());
 ```
-
-
-#### Q. What is occur if I 
-Don't worry. Whale automatically generates value key by using view widget's class name.
-If you 
-
-```dart
-Whale.go(on:'/home', to: AlarmView());
-
-// It will generates ValueKey('AlarmView') to identify page.
-
-// So, you can do this below:
-
-Whale.popByKey('/AlarmView');
-```
-
----
 ## Dialog Example
 
 Whale manages dialog stack per page.
 So, If you want to show dialog, you should select a page which will present it.
-
-
 
 ### Show Dialog
 ```dart
@@ -83,8 +68,6 @@ Whale.showDialogWithContext(
   key: 'IntroDialog', 
 );
 ```
-
----
 ## Util Function
 
 For convenience, Whale gives you some streams and methods. 
