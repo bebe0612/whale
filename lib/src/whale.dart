@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whale/src/core/back_button_dispatcher.dart';
 import 'package:whale/src/core/page_config.dart';
+import 'package:whale/src/core/route_information_parser.dart';
 
 import 'core/router_delegate.dart';
 
 class Whale {
+  Whale._();
+
   static WhaleRouterDelegate? _routerDelegate;
   static final WhaleBackButtonDispatcher _backButtonDispatcher =
       WhaleBackButtonDispatcher();
@@ -14,22 +17,28 @@ class Whale {
   static BackButtonDispatcher getBackButtonDispatcher() =>
       _backButtonDispatcher;
 
+  static RouteInformationParser<PageConfig> getRouteInformationParser() =>
+      WhaleRouteInformationParser();
+
   // initialize
-  static RouterDelegate getRouterDelegate({
+  static RouterDelegate<PageConfig> getRouterDelegate({
     required Widget view,
     List<NavigatorObserver> observers = const [],
   }) {
-    if (_routerDelegate != null) _routerDelegate;
+    if (_routerDelegate != null) {
+      return _routerDelegate!;
+    }
 
     _routerDelegate = WhaleRouterDelegate(
-      initialPage: PageConfig(view: view, name: view.runtimeType.toString()),
+      initialPage:
+          PageConfig(view: view, name: '/' + view.runtimeType.toString()),
       observers: observers,
     );
 
     return _routerDelegate!;
   }
 
-  /// UTIL
+  /// `UTIL`
   // when page stack has event
   final StreamController _pageStackChangeStreamController =
       StreamController.broadcast();
