@@ -1,7 +1,7 @@
 name: whale
 description: A flutter navigation 2.0 router for mobile app
-version: 0.0.1
-homepage:
+version: 1.0.0
+homepage: https://github.com/bebe0612/whale
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
