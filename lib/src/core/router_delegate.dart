@@ -61,7 +61,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   @override
   Future<bool> popRoute() {
     if (backButtonEnableYn) {
-      popLast();
+      _popLast();
     }
 
     return Future.value(true);
@@ -90,6 +90,19 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
 
     for (final viewStack in _viewStacks) {
       path += viewStack.viewName;
+    }
+    return path;
+  }
+
+  String getAllPath() {
+    String path = '';
+
+    for (final viewStack in _viewStacks) {
+      path += viewStack.viewName;
+
+      for (final dialog in viewStack.stack.sublist(1)) {
+        path += (dialog.arguments as PageConfig).name;
+      }
     }
     return path;
   }
@@ -160,8 +173,6 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     notifyListeners();
   }
 
-  /// `POP`
-
   void pop({required String viewName, bool forceYn = false, dynamic argument}) {
     final idx =
         _viewStacks.indexWhere((element) => element.viewName == viewName);
@@ -174,7 +185,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     notifyListeners();
   }
 
-  void popLast() {
+  void _popLast() {
     ViewStack last = _viewStacks.last;
 
     if (last.stack.length > 1) {
@@ -223,6 +234,51 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
         configurations.map((e) => ViewStack(e)).toList();
 
     _viewStacks.addAll(viewStacks);
+
+    notifyListeners();
+  }
+
+  void showDialog(String targetName, PageConfig dialog) {
+    if (!_isViewExist(targetName)) return;
+
+    final targetViewIndex =
+        _viewStacks.indexWhere((element) => element.viewName == targetName);
+
+    final viewStack = _viewStacks[targetViewIndex].stack;
+    for (final page in viewStack) {
+      PageConfig pageConfig = page.arguments as PageConfig;
+
+      if (pageConfig.name == dialog.name) {
+        return;
+      }
+    }
+
+    viewStack.add(dialog.toPage());
+
+    notifyListeners();
+  }
+
+  void hideDialog(String targetName, String dialogName) {
+    if (!_isViewExist(targetName)) return;
+
+    final targetViewIndex =
+        _viewStacks.indexWhere((element) => element.viewName == targetName);
+
+    final viewStack = _viewStacks[targetViewIndex].stack;
+
+    int targetIdx = -1;
+    for (int i = 0; i < viewStack.length; i++) {
+      PageConfig pageConfig = viewStack[i].arguments as PageConfig;
+
+      if (pageConfig.name == dialogName) {
+        targetIdx = i;
+        break;
+      }
+    }
+
+    if (targetIdx != -1) {
+      viewStack.removeAt(targetIdx);
+    }
 
     notifyListeners();
   }
