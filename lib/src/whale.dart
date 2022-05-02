@@ -125,19 +125,68 @@ class Whale {
     );
   }
 
+  /// `REPLACE`
+
+  static Future<dynamic> replaceByWidget({
+    required Widget from,
+    required Widget to,
+    bool restrictPop = false,
+  }) async {
+    return _routerDelegate?.replace(
+        '/${from.runtimeType.toString()}',
+        PageConfig(
+          name: '/${to.runtimeType.toString()}',
+          view: to,
+          type: PageType.noAnim,
+          constraint:
+              restrictPop ? PageConstraint.none : PageConstraint.cantPop,
+        ));
+  }
+
+  static Future<dynamic> replaceByContext({
+    required BuildContext from,
+    required Widget to,
+    bool restrictPop = false,
+  }) async {
+    PageConfig? pageConfig =
+        ModalRoute.of(from)?.settings.arguments as PageConfig;
+
+    return _routerDelegate?.replace(
+        pageConfig.name,
+        PageConfig(
+          name: '/${to.runtimeType.toString()}',
+          view: to,
+          type: PageType.noAnim,
+          constraint:
+              restrictPop ? PageConstraint.none : PageConstraint.cantPop,
+        ));
+  }
+
+  /// `Dialog`
+
   static Future<dynamic> showDialog({
     Widget? targetView,
     required Widget dialog,
     required String dialogName,
+    double barrierOpacity = 0.3,
   }) async {
-    //
+    return _routerDelegate?.showDialog(
+      '/${targetView.runtimeType.toString()}',
+      PageConfig(
+        name: dialogName,
+        view: dialog,
+        type: PageType.dialog,
+        argument: {'opacity': barrierOpacity},
+      ),
+    );
   }
 
   static Future<void> hideDialog({
     Widget? targetView,
     required String dialogName,
   }) async {
-    //
+    _routerDelegate?.hideDialog(
+        '/${targetView.runtimeType.toString()}', dialogName);
   }
 
   static pushAnyway(Widget widget) {
