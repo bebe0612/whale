@@ -59,11 +59,6 @@ class Whale {
 
   /// `BACK`
 
-  static backByName(String name, {dynamic argument, bool force = false}) {
-    return _routerDelegate?.pop(
-        viewName: name, forceYn: force, argument: argument);
-  }
-
   static backByContext(BuildContext context,
       {dynamic argument, bool force = false}) {
     PageConfig? pageConfig =
@@ -103,24 +98,6 @@ class Whale {
     );
   }
 
-  static Future<dynamic> goByName(
-    String from,
-    Widget to, {
-    String? viewName,
-    bool isModal = false,
-    bool restrictPop = false,
-  }) async {
-    return _routerDelegate?.push(
-      targetPageKey: from,
-      pushedPageConfig: PageConfig(
-        view: to,
-        name: viewName ?? '/${to.runtimeType.toString()}',
-        type: isModal ? PageType.fullscreen : PageType.material,
-        constraint: restrictPop ? PageConstraint.none : PageConstraint.cantPop,
-      ),
-    );
-  }
-
   static Future<dynamic> goByWidget(
     Widget from,
     Widget to, {
@@ -137,6 +114,21 @@ class Whale {
         constraint: restrictPop ? PageConstraint.none : PageConstraint.cantPop,
       ),
     );
+  }
+
+  static Future<dynamic> showDialog({
+    Widget? targetView,
+    required Widget dialog,
+    required String dialogName,
+  }) async {
+    //
+  }
+
+  static Future<void> hideDialog({
+    Widget? targetView,
+    required String dialogName,
+  }) async {
+    //
   }
 
   static pushAnyway(Widget widget) {
