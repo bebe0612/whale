@@ -101,4 +101,27 @@ void main() {
       expect('/user', routerDelegate.getPath());
     });
   });
+
+  group('Dialog Test', () {
+    WhaleRouterDelegate routerDelegate = WhaleRouterDelegate(
+        initialPage: PageConfig(name: '/home', view: const HomeView()));
+
+    test('show dialog', () {
+      routerDelegate.showDialog(
+          '/home',
+          PageConfig(
+            name: '.fail-dialog',
+            view: const FailDialog(),
+            type: PageType.dialog,
+          ));
+
+      expect('/home.fail-dialog', routerDelegate.getAllPath());
+    });
+
+    test('hide dialog', () {
+      routerDelegate.hideDialog('/home', '.fail-dialog');
+
+      expect('/home', routerDelegate.getAllPath());
+    });
+  });
 }

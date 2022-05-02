@@ -26,3 +26,12 @@ class SettingView extends StatelessWidget {
     return Container();
   }
 }
+
+class FailDialog extends StatelessWidget {
+  const FailDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
