@@ -12,8 +12,8 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   @override
   final GlobalKey<NavigatorState> navigatorKey;
   final List<NavigatorObserver> _observers;
-  final List<Page> _pages = [];
   final List<ViewStack> _viewStacks = [];
+
   bool backButtonEnableYn = true;
 
   WhaleRouterDelegate({
@@ -52,9 +52,10 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
       return false;
     }
 
-    if (_pages.length > 1) {
-      _pages.removeLast();
+    if (_viewStacks.length > 1) {
+      _viewStacks.removeLast();
     }
+
     return true;
   }
 
