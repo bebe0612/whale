@@ -15,15 +15,14 @@ You can push new page on specific page with `Whale.go()` method. It needs `on` a
 ```dart
 // These three method's exactly same operation
 
-Whale.goByName(from: '/home', to: AlarmView());
 Whale.goByContext(from: context, to: AlarmView());
 Whale.goByView(from: this or this.widget, to: AlarmView());
 ```
 ####Q. Why `to` argument type is Widget?
 because of some projects which communicate with each page with callback function see below:
 ```dart
-Whale.goByName(
-  from: '/home',
+Whale.goByView(
+  from: this,
   to: PostAddview(
     onPostAdded: (post){
       // some projects use callback to communicate with each page
@@ -38,7 +37,6 @@ Whale.goByName(
 Like push operation, you can pop specific page by key or context.
 ```dart
 Whale.backByContext(context);
-Whale.backByName('/home');
 Whale.backByView(this or this.widget);
 ```
 
@@ -46,7 +44,6 @@ Whale.backByView(this or this.widget);
 If you want to replace specific page to other, do below:
 ```dart
 Whale.replaceByContext(from: context, to: AlarmView());
-Whale.replaceByName(from: '/home', to: AlarmView());
 Whale.replaceByView(from: this or this.widget, to: AlarmView());
 ```
 ## Dialog Example
