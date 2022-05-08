@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:whale/src/core/view_stack.dart';
 
-import 'back_button_event.dart';
+import 'router_state.dart';
 import 'page_config.dart';
 
 class WhaleRouterDelegate extends RouterDelegate<PageConfig>
@@ -24,10 +24,11 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     setNewRoutePath(initialPage);
   }
 
-  final StreamController<BackButtonEvent> _backButtonEventController =
+  final StreamController<RouterState> _backButtonEventController =
       StreamController.broadcast();
-  Stream<BackButtonEvent> get getNewBackButtonEvent =>
+  Stream<RouterState> get getNewBackButtonEvent =>
       _backButtonEventController.stream;
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
@@ -122,25 +123,6 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
 
     notifyListeners();
   }
-
-  // void showPopUp(String pageName, PageConfig dialog) {
-  //   if (_isViewExist(dialog)) {
-  //     return;
-  //   }
-  //   int idx = _pages.indexWhere((element) {
-  //     return element.name! == pageName;
-  //   });
-  //
-  //   if (idx != -1) {
-  //     _pages.insert(idx + 1, dialog.toPage());
-  //     notifyListeners();
-  //   }
-  // }
-
-  // void hidePopUp(String popUpName) {
-  //   _pages.removeWhere((element) => element.name! == popUpName);
-  //   notifyListeners();
-  // }
 
   bool _isViewExist(String viewName) {
     for (final viewStack in _viewStacks) {
