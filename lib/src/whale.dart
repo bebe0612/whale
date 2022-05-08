@@ -131,12 +131,17 @@ class Whale {
     );
   }
 
-  static Future<dynamic> goAll({required List<Widget> views}) async {
+  static Future<dynamic> goAll({
+    Widget? from,
+    required List<Widget> views,
+  }) async {
     final configurations = views
         .map((e) => PageConfig(name: '/${e.runtimeType.toString()}', view: e))
         .toList();
 
-    return _routerDelegate?.pushAll(configurations);
+    return _routerDelegate?.pushAll(
+        from != null ? '/${from.runtimeType.toString()}' : null,
+        configurations);
   }
 
   /// `REPLACE`

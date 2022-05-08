@@ -109,7 +109,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     return path;
   }
 
-  void pushAll(List<PageConfig> configurations) {
+  void pushAll(String? viewName, List<PageConfig> configurations) {
     List<ViewStack> viewStacks =
         configurations.map((e) => ViewStack(e)).toList();
 
@@ -117,6 +117,18 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
       if (_isViewExist(viewStack.viewName)) {
         return;
       }
+    }
+
+    if (viewName != null) {
+      if (!_isViewExist(viewName)) {
+        return;
+      }
+
+      final viewStackIndex =
+          _viewStacks.indexWhere((element) => element.viewName == viewName);
+
+      _viewStacks.insertAll(viewStackIndex + 1, viewStacks);
+      return;
     }
 
     _viewStacks.addAll(viewStacks);
