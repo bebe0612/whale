@@ -35,6 +35,8 @@ class Whale {
       observers: observers,
     );
 
+    _backButtonDispatcher.onBackButtonPressed = _routerDelegate?.popRoute;
+
     return _routerDelegate!;
   }
 
@@ -43,13 +45,13 @@ class Whale {
   final StreamController _pageStackChangeStreamController =
       StreamController.broadcast();
 
-  Stream get onPageStackChanged => _pageStackChangeStreamController.stream;
+  Stream get navigationStream => _pageStackChangeStreamController.stream;
 
   // when user pressed back button
   final StreamController _backButtonEventStreamController =
       StreamController.broadcast();
 
-  Stream get onBackButtonEventOccur => _backButtonEventStreamController.stream;
+  Stream get backButtonStream => _backButtonEventStreamController.stream;
 
   /// `SETTING`
 
@@ -58,12 +60,16 @@ class Whale {
   }
 
   // get all pages information on the stack
-  static getPagesFromStack() {
-    //
+  static Uri getPagesFromStack() {
+    return Uri.parse(_routerDelegate?.getPath() ?? '');
+  }
+
+  static Uri getPagesWithDialogFromStack() {
+    return Uri.parse(_routerDelegate?.getAllPath() ?? '');
   }
 
   static popUntilByKey(dynamic pageKey) {
-    //
+    // TODO::
   }
 
   /// `BACK`
@@ -79,16 +85,16 @@ class Whale {
 
   static backByView(Widget view, {dynamic argument, bool force = false}) {
     return _routerDelegate?.pop(
-        viewName: view.runtimeType.toString(),
+        viewName: '/${view.runtimeType.toString()}',
         forceYn: force,
         argument: argument);
   }
 
   /// `GO`
 
-  static Future<dynamic> goByContext(
-    BuildContext from,
-    Widget to, {
+  static Future<dynamic> goByContext({
+    required BuildContext from,
+    required Widget to,
     String? viewName,
     bool isModal = false,
     bool restrictPop = false,
@@ -107,9 +113,9 @@ class Whale {
     );
   }
 
-  static Future<dynamic> goByWidget(
-    Widget from,
-    Widget to, {
+  static Future<dynamic> goByWidget({
+    required Widget from,
+    required Widget to,
     String? viewName,
     bool isModal = false,
     bool restrictPop = false,
@@ -181,7 +187,7 @@ class Whale {
     return _routerDelegate?.showDialog(
       '/${targetView.runtimeType.toString()}',
       PageConfig(
-        name: dialogName,
+        name: '.$dialogName',
         view: dialog,
         type: PageType.dialog,
         argument: {'opacity': barrierOpacity},
@@ -194,10 +200,10 @@ class Whale {
     required String dialogName,
   }) async {
     _routerDelegate?.hideDialog(
-        '/${targetView.runtimeType.toString()}', dialogName);
+        '/${targetView.runtimeType.toString()}', '.$dialogName');
   }
 
   static pushAnyway(Widget widget) {
-    //
+    // TODO::
   }
 }

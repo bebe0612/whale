@@ -22,7 +22,7 @@ class SecondView extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Whale.goByWidget(this, ThirdView());
+                  Whale.goByWidget(from: this, to: ThirdView());
                 },
                 child: const Text("Whale.Go(this, ThirdView())")),
           ],

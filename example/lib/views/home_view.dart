@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Whale.goByWidget(this, SecondView());
+                  Whale.goByWidget(from: this, to: SecondView());
                 },
                 child: const Text("Whale.Go(this, SecondView());")),
             ElevatedButton(
