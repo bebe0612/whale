@@ -1,5 +1,6 @@
 import 'package:example/dialogs/custom_dialog.dart';
 import 'package:example/views/second_view.dart';
+import 'package:example/views/third_view.dart';
 import 'package:flutter/material.dart';
 import 'package:whale/whale.dart';
 
@@ -45,6 +46,14 @@ class HomeView extends StatelessWidget {
                   Whale.replaceByWidget(from: this, to: SecondView());
                 },
                 child: const Text("replace HomeView to SecondView")),
+            ElevatedButton(
+                onPressed: () {
+                  Whale.goAll(
+                      from: this,
+                      views: [const SecondView(), const ThirdView()]);
+                },
+                child: const Text(
+                    "Whale.goAll(from:this, [SecondView(),ThirdView()]);")),
           ],
         ),
       ),
