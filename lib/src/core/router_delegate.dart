@@ -128,6 +128,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
           _viewStacks.indexWhere((element) => element.viewName == viewName);
 
       _viewStacks.insertAll(viewStackIndex + 1, viewStacks);
+      notifyListeners();
       return;
     }
 
@@ -201,6 +202,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     } else {
       _viewStacks.removeRange(index + 1, _viewStacks.length);
     }
+    notifyListeners();
   }
 
   /// `REPLACE`
