@@ -60,7 +60,7 @@ void main() {
     });
 
     test('push all', () {
-      routerDelegate.pushAll([
+      routerDelegate.pushAll('/home', [
         PageConfig(
           name: '/user',
           view: const UserView(),
@@ -71,7 +71,7 @@ void main() {
         ),
       ]);
 
-      expect('/home/user/setting', routerDelegate.getPath());
+      expect(routerDelegate.getPath(), '/home/user/setting');
     });
 
     test('replace all', () {
