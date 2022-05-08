@@ -68,8 +68,8 @@ class Whale {
     return Uri.parse(_routerDelegate?.getAllPath() ?? '');
   }
 
-  static popUntilByKey(dynamic pageKey) {
-    // TODO::
+  static popUntil(Widget view) {
+    _routerDelegate?.popUntil(viewName: '/${view.runtimeType.toString()}');
   }
 
   /// `BACK`
@@ -129,6 +129,14 @@ class Whale {
         constraint: restrictPop ? PageConstraint.none : PageConstraint.cantPop,
       ),
     );
+  }
+
+  static Future<dynamic> goAll({required List<Widget> views}) async {
+    final configurations = views
+        .map((e) => PageConfig(name: '/${e.runtimeType.toString()}', view: e))
+        .toList();
+
+    return _routerDelegate?.pushAll(configurations);
   }
 
   /// `REPLACE`
