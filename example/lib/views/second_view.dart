@@ -1,3 +1,4 @@
+import 'package:example/views/home_view.dart';
 import 'package:example/views/third_view.dart';
 import 'package:flutter/material.dart';
 import 'package:whale/whale.dart';
@@ -25,6 +26,11 @@ class SecondView extends StatelessWidget {
                   Whale.goByWidget(from: this, to: ThirdView());
                 },
                 child: const Text("Whale.Go(this, ThirdView())")),
+            ElevatedButton(
+                onPressed: () {
+                  Whale.replaceAll(views: [HomeView()]);
+                },
+                child: const Text("replaceAll SecondView to HomeView")),
           ],
         ),
       ),

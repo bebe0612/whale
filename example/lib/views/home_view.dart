@@ -54,6 +54,11 @@ class HomeView extends StatelessWidget {
                 },
                 child: const Text(
                     "Whale.goAll(from:this, [SecondView(),ThirdView()]);")),
+            ElevatedButton(
+                onPressed: () {
+                  Whale.replaceAll(views: [SecondView()]);
+                },
+                child: const Text("replaceAll HomeView to SecondView")),
           ],
         ),
       ),
