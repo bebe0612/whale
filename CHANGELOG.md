@@ -1,3 +1,6 @@
+## 1.0.1
+Remove first page stack's animation.
+
 ## 1.0.0
 Add basic navigation functions and rule.
 
