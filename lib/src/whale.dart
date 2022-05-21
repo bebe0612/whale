@@ -183,7 +183,11 @@ class Whale {
 
   static Future<dynamic> replaceAll({required List<Widget> views}) async {
     final configurations = views
-        .map((e) => PageConfig(name: '/${e.runtimeType.toString()}', view: e))
+        .map((e) => PageConfig(
+              name: '/${e.runtimeType.toString()}',
+              view: e,
+              type: views.first == e ? PageType.noAnim : PageType.material,
+            ))
         .toList();
 
     return _routerDelegate?.replaceAll(configurations);
