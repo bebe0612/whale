@@ -1,4 +1,7 @@
 ## 1.0.1
+Fix android back button last view stack deletion. 
+
+## 1.0.1
 Remove first page stack's animation.
 
 ## 1.0.0
