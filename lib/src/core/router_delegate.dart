@@ -187,7 +187,9 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     if (last.stack.length > 1) {
       last.stack.removeLast();
     } else {
-      _viewStacks.remove(last);
+      if (_viewStacks.length > 1) {
+        _viewStacks.remove(last);
+      }
     }
 
     notifyListeners();
