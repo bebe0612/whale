@@ -257,8 +257,20 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     notifyListeners();
   }
 
-  void hideDialog(String targetName, String dialogName) {
-    if (!_isViewExist(targetName)) return;
+  void hideDialog(String? targetName, String dialogName) {
+    if (targetName != null && !_isViewExist(targetName)) return;
+
+    if (targetName == null) {
+      for (final viewStack in _viewStacks.reversed) {
+        for (final page in viewStack.stack) {
+          final pageConfig = page.arguments as PageConfig;
+          if (pageConfig.name == dialogName) {
+            viewStack.stack.remove(page);
+            return;
+          }
+        }
+      }
+    }
 
     final targetViewIndex =
         _viewStacks.indexWhere((element) => element.viewName == targetName);
