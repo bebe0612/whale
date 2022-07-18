@@ -1,3 +1,7 @@
+## 1.1.0
+* Add firebase analytics route filter function
+* Add feature of hide dialog at global scope
+
 ## 1.0.1
 Remove first page stack's animation.
 
