@@ -96,6 +96,10 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     return path;
   }
 
+  String getLastPageName() {
+    return _viewStacks.last.viewName;
+  }
+
   String getAllPath() {
     String path = '';
 
