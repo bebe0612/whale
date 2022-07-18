@@ -55,4 +55,18 @@ void main() {
 
     expect(Whale.getPagesWithDialogFromStack().path, '/UserView');
   });
+
+  test('hide dialog at global search', () {
+    Whale.showDialog(
+      targetView: const UserView(),
+      dialog: const FailDialog(),
+      dialogName: 'fail-dialog',
+    );
+
+    expect(Whale.getPagesWithDialogFromStack().path, '/UserView.fail-dialog');
+
+    Whale.hideDialog(dialogName: 'fail-dialog');
+
+    expect(Whale.getPagesWithDialogFromStack().path, '/UserView');
+  });
 }

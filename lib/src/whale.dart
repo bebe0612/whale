@@ -72,6 +72,20 @@ class Whale {
     _routerDelegate?.popUntil(viewName: '/${view.runtimeType.toString()}');
   }
 
+  static String _lastPageName = "/";
+  static bool firebaseRouteFilter(Route<dynamic>? route) {
+    PageConfig pageConfig = route?.settings.arguments as PageConfig;
+
+    if (!pageConfig.name.contains('/')) return false;
+
+    if (_lastPageName != _routerDelegate?.getLastPageName()) {
+      _lastPageName = _routerDelegate!.getLastPageName();
+
+      return true;
+    }
+    return false;
+  }
+
   /// `BACK`
 
   static backByContext(BuildContext context,
@@ -217,7 +231,8 @@ class Whale {
     required String dialogName,
   }) async {
     _routerDelegate?.hideDialog(
-        '/${targetView.runtimeType.toString()}', '.$dialogName');
+        targetView == null ? null : '/${targetView.runtimeType.toString()}',
+        '.$dialogName');
   }
 
   static pushAnyway(Widget widget) {

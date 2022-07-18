@@ -124,4 +124,19 @@ void main() {
       expect('/home', routerDelegate.getAllPath());
     });
   });
+
+  group('Util Test', () {
+    WhaleRouterDelegate routerDelegate = WhaleRouterDelegate(
+        initialPage: PageConfig(name: '/home', view: const HomeView()));
+
+    test('last page name', () {
+      expect('/home', routerDelegate.getLastPageName());
+
+      routerDelegate.push(
+          targetPageKey: '/home',
+          pushedPageConfig: PageConfig(name: '/user', view: const UserView()));
+
+      expect('/user', routerDelegate.getLastPageName());
+    });
+  });
 }

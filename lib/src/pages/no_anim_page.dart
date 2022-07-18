@@ -31,7 +31,7 @@ class NoAnimRoute<T> extends PageRoute<T> {
   bool get opaque => false;
 
   @override
-  Color get barrierColor => Color(0xffffffff);
+  Color get barrierColor => const Color(0xffffffff);
 
   @override
   String get barrierLabel => 'transparent';
@@ -40,7 +40,7 @@ class NoAnimRoute<T> extends PageRoute<T> {
   bool get maintainState => true;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 0);
+  Duration get transitionDuration => const Duration(milliseconds: 0);
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
