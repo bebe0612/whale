@@ -210,13 +210,33 @@ class Whale {
   /// `Dialog`
 
   static Future<dynamic> showDialog({
-    Widget? targetView,
+    required Widget targetView,
     required Widget dialog,
     required String dialogName,
     double barrierOpacity = 0.3,
   }) async {
     return _routerDelegate?.showDialog(
       '/${targetView.runtimeType.toString()}',
+      PageConfig(
+        name: '.$dialogName',
+        view: dialog,
+        type: PageType.dialog,
+        argument: {'opacity': barrierOpacity},
+      ),
+    );
+  }
+
+  static Future<dynamic> showDialogByContext({
+    required BuildContext context,
+    required Widget dialog,
+    required String dialogName,
+    double barrierOpacity = 0.3,
+  }) async {
+    PageConfig? pageConfig =
+        ModalRoute.of(context)?.settings.arguments as PageConfig;
+
+    return _routerDelegate?.showDialog(
+      pageConfig.name,
       PageConfig(
         name: '.$dialogName',
         view: dialog,
