@@ -1,3 +1,6 @@
+## 1.1.2
+* Fix hideDialog operation (omit notifyListener())
+ 
 ## 1.1.1
 * Add showDialogByContext method
 * Add hide dialog testcase
