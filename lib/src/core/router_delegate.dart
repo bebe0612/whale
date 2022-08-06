@@ -270,6 +270,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
           final pageConfig = page.arguments as PageConfig;
           if (pageConfig.name == dialogName) {
             viewStack.stack.remove(page);
+            notifyListeners();
             return;
           }
         }
