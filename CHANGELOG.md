@@ -1,3 +1,7 @@
+## 1.1.1
+* Add showDialogByContext method
+* Add hide dialog testcase
+
 ## 1.1.0
 * Add firebase analytics route filter function
 * Add feature of hide dialog at global scope

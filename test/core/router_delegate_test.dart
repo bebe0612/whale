@@ -119,9 +119,14 @@ void main() {
     });
 
     test('hide dialog', () {
+      routerDelegate.push(
+          targetPageKey: '/home',
+          pushedPageConfig:
+              PageConfig(name: '/setting', view: const SettingView()));
+
       routerDelegate.hideDialog('/home', '.fail-dialog');
 
-      expect('/home', routerDelegate.getAllPath());
+      expect(routerDelegate.getAllPath(), '/home/setting');
     });
   });
 

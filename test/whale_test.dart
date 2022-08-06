@@ -63,10 +63,13 @@ void main() {
       dialogName: 'fail-dialog',
     );
 
-    expect(Whale.getPagesWithDialogFromStack().path, '/UserView.fail-dialog');
+    Whale.goByWidget(from: const UserView(), to: const HomeView());
+
+    expect(Whale.getPagesWithDialogFromStack().path,
+        '/UserView.fail-dialog/HomeView');
 
     Whale.hideDialog(dialogName: 'fail-dialog');
 
-    expect(Whale.getPagesWithDialogFromStack().path, '/UserView');
+    expect(Whale.getPagesWithDialogFromStack().path, '/UserView/HomeView');
   });
 }
