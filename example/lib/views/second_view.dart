@@ -28,6 +28,11 @@ class SecondView extends StatelessWidget {
                 child: const Text("Whale.Go(this, ThirdView())")),
             ElevatedButton(
                 onPressed: () {
+                  Whale.goByContext(from: context, to: ThirdView());
+                },
+                child: const Text("Whale.GoByContext(context, ThirdView())")),
+            ElevatedButton(
+                onPressed: () {
                   Whale.replaceAll(views: [HomeView()]);
                 },
                 child: const Text("replaceAll SecondView to HomeView")),

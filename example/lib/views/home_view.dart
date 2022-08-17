@@ -29,6 +29,11 @@ class HomeView extends StatelessWidget {
                 child: const Text("Whale.Go(this, SecondView());")),
             ElevatedButton(
                 onPressed: () {
+                  Whale.goByContext(from: context, to: SecondView());
+                },
+                child: const Text("Whale.GoByContext(this, SecondView());")),
+            ElevatedButton(
+                onPressed: () {
                   Whale.showDialog(
                     targetView: this,
                     dialog: CustomDialog(
