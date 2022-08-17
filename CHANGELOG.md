@@ -1,3 +1,6 @@
+## 1.1.3
+* Add Slide Right Animation for Android(default)
+
 ## 1.1.2
 * Fix hideDialog operation (omit notifyListener())
  
