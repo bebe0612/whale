@@ -37,8 +37,12 @@ class PageConfig {
   Page toPage() {
     PageType _type = type;
 
-    if (Platform.isAndroid && type == PageType.material) {
-      _type = PageType.slideRight;
+    try {
+      if (Platform.isAndroid && type == PageType.material) {
+        _type = PageType.slideRight;
+      }
+    } catch (e) {
+      // do nothing on web
     }
 
     switch (_type) {
