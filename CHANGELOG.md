@@ -1,3 +1,6 @@
+## 1.1.4
+* Support web
+
 ## 1.1.3
 * Add Slide Right Animation for Android(default)
 
