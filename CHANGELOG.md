@@ -1,3 +1,6 @@
+## 1.1.6
+* Fix bug (static omitted)
+
 ## 1.1.5
 * Add Backbutton Stream and Control , Navigation Stream
 
