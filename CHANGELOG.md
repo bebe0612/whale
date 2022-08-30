@@ -1,3 +1,6 @@
+## 1.1.7
+* Add Global PopUp Feature
+
 ## 1.1.6
 * Fix bug (static omitted)
 
