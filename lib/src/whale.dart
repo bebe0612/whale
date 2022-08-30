@@ -49,14 +49,14 @@ class Whale {
   static final StreamController<String?> _pageStackChangeStreamController =
       StreamController.broadcast();
 
-  Stream<String?> get navigationStream =>
+  static Stream<String?> get navigationStream =>
       _pageStackChangeStreamController.stream;
 
   // when user pressed back button
   static final StreamController _backButtonEventStreamController =
       StreamController.broadcast();
 
-  Stream get backButtonStream => _backButtonEventStreamController.stream;
+  static Stream get backButtonStream => _backButtonEventStreamController.stream;
 
   /// `SETTING`
 
