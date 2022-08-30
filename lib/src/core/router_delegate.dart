@@ -25,7 +25,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   }
 
   final StreamController<RouterState> _backButtonEventController =
-      StreamController.broadcast();
+      StreamController();
   Stream<RouterState> get getNewBackButtonEvent =>
       _backButtonEventController.stream;
 
@@ -39,10 +39,22 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     );
   }
 
+  final StreamController<String?> _navigationStreamController =
+      StreamController.broadcast();
+
+  Stream<String?> get navigationStream => _navigationStreamController.stream;
+
+  String? _currentName;
+
   List<Page> _convertToPages() {
     List<Page> pages = [];
     for (final viewStack in _viewStacks) {
       pages.addAll(viewStack.stack);
+    }
+
+    if (_currentName != _viewStacks.last.viewName) {
+      _currentName = _viewStacks.last.viewName;
+      _navigationStreamController.add(_currentName);
     }
 
     return pages;

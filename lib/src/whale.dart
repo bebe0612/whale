@@ -35,6 +35,10 @@ class Whale {
       observers: observers,
     );
 
+    _routerDelegate?.navigationStream.listen((viewName) {
+      _pageStackChangeStreamController.add(viewName);
+    });
+
     _backButtonDispatcher.onBackButtonPressed = _routerDelegate?.popRoute;
 
     return _routerDelegate!;
@@ -42,20 +46,21 @@ class Whale {
 
   /// `UTIL`
   // when page stack has event
-  final StreamController _pageStackChangeStreamController =
+  static final StreamController<String?> _pageStackChangeStreamController =
       StreamController.broadcast();
 
-  Stream get navigationStream => _pageStackChangeStreamController.stream;
+  Stream<String?> get navigationStream =>
+      _pageStackChangeStreamController.stream;
 
   // when user pressed back button
-  final StreamController _backButtonEventStreamController =
+  static final StreamController _backButtonEventStreamController =
       StreamController.broadcast();
 
   Stream get backButtonStream => _backButtonEventStreamController.stream;
 
   /// `SETTING`
 
-  void activateBackButton(bool value) {
+  static void activateBackButton(bool value) {
     _routerDelegate?.backButtonEnableYn = value;
   }
 

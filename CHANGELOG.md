@@ -1,3 +1,6 @@
+## 1.1.5
+* Add Backbutton Stream and Control , Navigation Stream
+
 ## 1.1.4
 * Support web
 
