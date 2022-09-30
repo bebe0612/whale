@@ -13,6 +13,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   final GlobalKey<NavigatorState> navigatorKey;
   final List<NavigatorObserver> _observers;
   final List<ViewStack> _viewStacks = [];
+  final List<Page> _global = [];
 
   bool backButtonEnableYn = true;
 
@@ -57,7 +58,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
       _navigationStreamController.add(_currentName);
     }
 
-    return pages;
+    return pages + _global;
   }
 
   bool _onPopPage(Route<dynamic> route, result) {
@@ -185,6 +186,16 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     notifyListeners();
   }
 
+  Future<dynamic> pushForce({required PageConfig pushedPageConfig}) async {
+    if (_isViewExist(pushedPageConfig.name)) return;
+
+    ViewStack viewStack = ViewStack(pushedPageConfig);
+
+    _viewStacks.add(viewStack);
+
+    notifyListeners();
+  }
+
   void pop({required String viewName, bool forceYn = false, dynamic argument}) {
     final idx =
         _viewStacks.indexWhere((element) => element.viewName == viewName);
@@ -307,6 +318,18 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     if (targetIdx != -1) {
       viewStack.removeAt(targetIdx);
     }
+
+    notifyListeners();
+  }
+
+  void showGlobalDialog(PageConfig dialog) {
+    _global.add(dialog.toPage());
+
+    notifyListeners();
+  }
+
+  void hideGlobalDialog() {
+    _global.clear();
 
     notifyListeners();
   }

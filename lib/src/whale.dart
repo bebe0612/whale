@@ -260,7 +260,36 @@ class Whale {
         '.$dialogName');
   }
 
-  static pushAnyway(Widget widget) {
-    // TODO::
+  static pushAnyway(
+    Widget widget, {
+    bool isModal = false,
+    bool restrictPop = false,
+  }) {
+    _routerDelegate?.pushForce(
+      pushedPageConfig: PageConfig(
+        view: widget,
+        name: '/${widget.runtimeType.toString()}',
+        type: isModal ? PageType.fullscreen : PageType.material,
+        constraint: restrictPop ? PageConstraint.none : PageConstraint.cantPop,
+      ),
+    );
+  }
+
+  static showGlobalPopUp({
+    required Widget dialog,
+    double barrierOpacity = 0.3,
+  }) {
+    _routerDelegate?.showGlobalDialog(
+      PageConfig(
+        name: '@${dialog.runtimeType.toString()}',
+        view: dialog,
+        type: PageType.dialog,
+        argument: {'opacity': barrierOpacity},
+      ),
+    );
+  }
+
+  static hideGlobalPopUp() {
+    _routerDelegate?.hideGlobalDialog();
   }
 }
