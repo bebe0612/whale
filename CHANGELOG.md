@@ -1,3 +1,6 @@
+## 1.1.8
+* Add android back button stream
+* 
 ## 1.1.7
 * Add Global PopUp Feature
 
