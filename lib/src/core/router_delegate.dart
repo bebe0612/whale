@@ -75,11 +75,13 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
 
   @override
   Future<bool> popRoute() {
+    _backButtonEventController
+        .add(RouterState(pageStackUri: Uri.parse(getPath())));
+
     if (backButtonEnableYn) {
       _popLast();
     }
-    _backButtonEventController
-        .add(RouterState(pageStackUri: Uri.parse(getPath())));
+
     return Future.value(true);
   }
 
