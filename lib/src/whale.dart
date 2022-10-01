@@ -60,7 +60,8 @@ class Whale {
   static final StreamController<RouterState> _backButtonEventStreamController =
       StreamController.broadcast();
 
-  static Stream get backButtonStream => _backButtonEventStreamController.stream;
+  static Stream<RouterState> get backButtonStream =>
+      _backButtonEventStreamController.stream;
 
   /// `SETTING`
 
