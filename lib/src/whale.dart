@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:whale/src/core/back_button_dispatcher.dart';
 import 'package:whale/src/core/page_config.dart';
 import 'package:whale/src/core/route_information_parser.dart';
+import 'package:whale/src/core/router_state.dart';
 
 import 'core/router_delegate.dart';
 
@@ -41,6 +42,9 @@ class Whale {
 
     _backButtonDispatcher.onBackButtonPressed = _routerDelegate?.popRoute;
 
+    _routerDelegate?.getNewBackButtonEvent.listen((event) {
+      _backButtonEventStreamController.add(event);
+    });
     return _routerDelegate!;
   }
 
@@ -53,7 +57,7 @@ class Whale {
       _pageStackChangeStreamController.stream;
 
   // when user pressed back button
-  static final StreamController _backButtonEventStreamController =
+  static final StreamController<RouterState> _backButtonEventStreamController =
       StreamController.broadcast();
 
   static Stream get backButtonStream => _backButtonEventStreamController.stream;
