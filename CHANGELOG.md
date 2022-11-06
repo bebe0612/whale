@@ -1,3 +1,6 @@
+## 1.1.10
+* Add context based navigation on dialog state
+ 
 ## 1.1.9
 * Fix back button stream
 
