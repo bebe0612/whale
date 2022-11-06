@@ -126,8 +126,11 @@ class Whale {
     PageConfig? pageConfig =
         ModalRoute.of(from)?.settings.arguments as PageConfig;
 
+    print(pageConfig);
     return _routerDelegate?.push(
-      targetPageKey: pageConfig.name,
+      targetPageKey: pageConfig.type == PageType.dialog
+          ? pageConfig.argument["parent"]
+          : pageConfig.name,
       pushedPageConfig: PageConfig(
         view: to,
         name: viewName ?? '/${to.runtimeType.toString()}',
@@ -246,7 +249,9 @@ class Whale {
         ModalRoute.of(context)?.settings.arguments as PageConfig;
 
     return _routerDelegate?.showDialog(
-      pageConfig.name,
+      pageConfig.type == PageType.dialog
+          ? pageConfig.argument["parent"]
+          : pageConfig.name,
       PageConfig(
         name: '.$dialogName',
         view: dialog,

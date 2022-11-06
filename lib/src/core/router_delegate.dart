@@ -270,6 +270,8 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   void showDialog(String targetName, PageConfig dialog) {
     if (!_isViewExist(targetName)) return;
 
+    dialog.argument["parent"] = targetName;
+
     final targetViewIndex =
         _viewStacks.indexWhere((element) => element.viewName == targetName);
 
