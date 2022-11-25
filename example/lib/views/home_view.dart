@@ -4,8 +4,22 @@ import 'package:example/views/third_view.dart';
 import 'package:flutter/material.dart';
 import 'package:whale/whale.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    Whale.backButtonStream.listen((event) {
+      print(event.pageStackUri);
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +38,7 @@ class HomeView extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Whale.goByWidget(from: this, to: SecondView());
+                  Whale.goByWidget(from: widget, to: SecondView());
                 },
                 child: const Text("Whale.Go(this, SecondView());")),
             ElevatedButton(
@@ -35,11 +49,11 @@ class HomeView extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   Whale.showDialog(
-                    targetView: this,
+                    targetView: widget,
                     dialog: CustomDialog(
                       onBarrierPressed: () {
                         Whale.hideDialog(
-                            dialogName: 'customDialog', targetView: this);
+                            dialogName: 'customDialog', targetView: widget);
                       },
                     ),
                     dialogName: 'customDialog',
@@ -48,13 +62,13 @@ class HomeView extends StatelessWidget {
                 child: const Text("Whale.showDialog(this, CustomDialog());")),
             ElevatedButton(
                 onPressed: () {
-                  Whale.replaceByWidget(from: this, to: SecondView());
+                  Whale.replaceByWidget(from: widget, to: SecondView());
                 },
                 child: const Text("replace HomeView to SecondView")),
             ElevatedButton(
                 onPressed: () {
                   Whale.goAll(
-                      from: this,
+                      from: widget,
                       views: [const SecondView(), const ThirdView()]);
                 },
                 child: const Text(
