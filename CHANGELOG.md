@@ -1,3 +1,6 @@
+## 1.1.11
+* Add dialog info to Url
+
 ## 1.1.10
 * Add context based navigation on dialog state
  
