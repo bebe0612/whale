@@ -107,7 +107,9 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     String path = '';
 
     for (final viewStack in _viewStacks) {
-      path += viewStack.viewName;
+      for (var item in viewStack.stack) {
+        path += item.name ?? ".undefine";
+      }
     }
     return path;
   }
