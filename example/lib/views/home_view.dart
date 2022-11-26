@@ -56,6 +56,7 @@ class _HomeViewState extends State<HomeView> {
                             dialogName: 'customDialog', targetView: widget);
                       },
                     ),
+                    animation: false,
                     dialogName: 'customDialog',
                   );
                 },
