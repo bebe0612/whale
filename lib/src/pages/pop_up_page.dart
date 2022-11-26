@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whale/src/core/page_config.dart';
 
 class PopUpPage<T> extends Page<T> {
   const PopUpPage({
@@ -24,10 +25,58 @@ class PopUpPage<T> extends Page<T> {
 
   @override
   Route<T> createRoute(BuildContext context) {
+    PageConfig pageConfig = this.arguments as PageConfig;
+
+    if (pageConfig.argument["animation"] == false) {
+      return NoAnimTransparentRoute<T>(
+        settings: this,
+        builder: (BuildContext context) => child,
+        opacity: opacity ?? .7,
+      );
+    }
+
     return TransparentRoute<T>(
       builder: (context) => child,
       settings: this,
       opacity: opacity ?? .7,
+    );
+  }
+}
+
+class NoAnimTransparentRoute<T> extends PageRoute<T> {
+  NoAnimTransparentRoute({
+    required this.builder,
+    RouteSettings? settings,
+    required double opacity,
+  })  : opacity = opacity,
+        super(settings: settings, fullscreenDialog: false);
+
+  final WidgetBuilder builder;
+  final double opacity;
+  @override
+  bool get opaque => false;
+
+  @override
+  Color get barrierColor => const Color(0x00ffffff);
+
+  @override
+  String get barrierLabel => 'transparent';
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 0);
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    final result = builder(context);
+
+    return Semantics(
+      scopesRoute: true,
+      explicitChildNodes: true,
+      child: result,
     );
   }
 }

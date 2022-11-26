@@ -227,6 +227,7 @@ class Whale {
     required Widget dialog,
     required String dialogName,
     double barrierOpacity = 0.3,
+    bool animation = true,
   }) async {
     return _routerDelegate?.showDialog(
       '/${targetView.runtimeType.toString()}',
@@ -234,7 +235,10 @@ class Whale {
         name: '.$dialogName',
         view: dialog,
         type: PageType.dialog,
-        argument: {'opacity': barrierOpacity},
+        argument: {
+          'opacity': barrierOpacity,
+          'animation': animation,
+        },
       ),
     );
   }
@@ -244,6 +248,7 @@ class Whale {
     required Widget dialog,
     required String dialogName,
     double barrierOpacity = 0.3,
+    bool animation = true,
   }) async {
     PageConfig? pageConfig =
         ModalRoute.of(context)?.settings.arguments as PageConfig;
@@ -256,7 +261,10 @@ class Whale {
         name: '.$dialogName',
         view: dialog,
         type: PageType.dialog,
-        argument: {'opacity': barrierOpacity},
+        argument: {
+          'opacity': barrierOpacity,
+          'animation': animation,
+        },
       ),
     );
   }
