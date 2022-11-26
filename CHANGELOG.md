@@ -1,3 +1,6 @@
+## 1.1.12
+* Add no animation dialog transition
+
 ## 1.1.11
 * Add dialog info to Url
 
