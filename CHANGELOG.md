@@ -1,3 +1,6 @@
+## 1.1.13
+* Fix android fullscreen animation
+
 ## 1.1.12
 * Add no animation dialog transition
 
