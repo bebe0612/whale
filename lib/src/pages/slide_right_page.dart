@@ -78,9 +78,9 @@ class TransparentRoute<T> extends PageRoute<T> {
                 elevation: 0,
                 child: Transform.translate(
                   offset: Offset(
-                      MediaQuery.of(context).size.width *
-                          (1 - (curvedAnimation.value * 1)),
-                      0),
+                      0,
+                      MediaQuery.of(context).size.height *
+                          (1 - (curvedAnimation.value * 1))),
                   child: result,
                 ),
               ),

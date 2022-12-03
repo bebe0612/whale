@@ -38,7 +38,7 @@ class PageConfig {
     PageType _type = type;
 
     try {
-      if (Platform.isAndroid && type == PageType.material) {
+      if (Platform.isAndroid && type == PageType.fullscreen) {
         _type = PageType.slideRight;
       }
     } catch (e) {

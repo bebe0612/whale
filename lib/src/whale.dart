@@ -126,7 +126,6 @@ class Whale {
     PageConfig? pageConfig =
         ModalRoute.of(from)?.settings.arguments as PageConfig;
 
-    print(pageConfig);
     return _routerDelegate?.push(
       targetPageKey: pageConfig.type == PageType.dialog
           ? pageConfig.argument["parent"]
