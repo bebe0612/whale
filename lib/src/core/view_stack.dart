@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:whale/src/core/page_config.dart';
 
-class ViewStack {
+class WhaleScreen {
   final String viewName;
   final Widget view;
-  final List<Page> stack;
+  final List<Page> pages;
 
-  ViewStack(PageConfig pageConfig)
+  WhaleScreen(PageConfig pageConfig)
       : viewName = pageConfig.name,
         view = pageConfig.view,
-        stack = [pageConfig.toPage()];
+        pages = [pageConfig.toPage()];
 }

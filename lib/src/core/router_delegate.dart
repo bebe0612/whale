@@ -12,7 +12,7 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   @override
   final GlobalKey<NavigatorState> navigatorKey;
   final List<NavigatorObserver> _observers;
-  final List<ViewStack> _viewStacks = [];
+  final List<WhaleScreen> _screens = [];
   final List<Page> _global = [];
 
   bool backButtonEnableYn = true;
@@ -49,12 +49,12 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
 
   List<Page> _convertToPages() {
     List<Page> pages = [];
-    for (final viewStack in _viewStacks) {
-      pages.addAll(viewStack.stack);
+    for (final viewStack in _screens) {
+      pages.addAll(viewStack.pages);
     }
 
-    if (_currentName != _viewStacks.last.viewName) {
-      _currentName = _viewStacks.last.viewName;
+    if (_currentName != _screens.last.viewName) {
+      _currentName = _screens.last.viewName;
       _navigationStreamController.add(_currentName);
     }
 
@@ -66,8 +66,8 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
       return false;
     }
 
-    if (_viewStacks.length > 1) {
-      _viewStacks.removeLast();
+    if (_screens.length > 1) {
+      _screens.removeLast();
     }
 
     return true;
@@ -91,13 +91,13 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
       return SynchronousFuture(null);
     }
 
-    if (_viewStacks.isEmpty) {
-      ViewStack newViewStack = ViewStack(configuration);
-      _viewStacks.add(newViewStack);
+    if (_screens.isEmpty) {
+      WhaleScreen newViewStack = WhaleScreen(configuration);
+      _screens.add(newViewStack);
       notifyListeners();
     } else {
       push(
-          targetPageKey: _viewStacks.last.viewName,
+          targetPageKey: _screens.last.viewName,
           pushedPageConfig: configuration);
     }
     return SynchronousFuture(null);
@@ -106,8 +106,8 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   String getPath() {
     String path = '';
 
-    for (final viewStack in _viewStacks) {
-      for (var item in viewStack.stack) {
+    for (final viewStack in _screens) {
+      for (var item in viewStack.pages) {
         path += item.name ?? ".undefine";
       }
     }
@@ -115,16 +115,16 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   }
 
   String getLastPageName() {
-    return _viewStacks.last.viewName;
+    return _screens.last.viewName;
   }
 
   String getAllPath() {
     String path = '';
 
-    for (final viewStack in _viewStacks) {
+    for (final viewStack in _screens) {
       path += viewStack.viewName;
 
-      for (final dialog in viewStack.stack.sublist(1)) {
+      for (final dialog in viewStack.pages.sublist(1)) {
         path += (dialog.arguments as PageConfig).name;
       }
     }
@@ -132,8 +132,8 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   }
 
   void pushAll(String? viewName, List<PageConfig> configurations) {
-    List<ViewStack> viewStacks =
-        configurations.map((e) => ViewStack(e)).toList();
+    List<WhaleScreen> viewStacks =
+        configurations.map((e) => WhaleScreen(e)).toList();
 
     for (final viewStack in viewStacks) {
       if (_isViewExist(viewStack.viewName)) {
@@ -147,20 +147,20 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
       }
 
       final viewStackIndex =
-          _viewStacks.indexWhere((element) => element.viewName == viewName);
+          _screens.indexWhere((element) => element.viewName == viewName);
 
-      _viewStacks.insertAll(viewStackIndex + 1, viewStacks);
+      _screens.insertAll(viewStackIndex + 1, viewStacks);
       notifyListeners();
       return;
     }
 
-    _viewStacks.addAll(viewStacks);
+    _screens.addAll(viewStacks);
 
     notifyListeners();
   }
 
   bool _isViewExist(String viewName) {
-    for (final viewStack in _viewStacks) {
+    for (final viewStack in _screens) {
       if (viewStack.viewName == viewName) {
         return true;
       }
@@ -174,18 +174,18 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     if (_isViewExist(pushedPageConfig.name)) return;
 
     final viewStackIndex =
-        _viewStacks.indexWhere((element) => element.viewName == targetPageKey);
+        _screens.indexWhere((element) => element.viewName == targetPageKey);
 
     if (viewStackIndex == -1) {
       return;
     }
 
-    ViewStack viewStack = ViewStack(pushedPageConfig);
+    WhaleScreen viewStack = WhaleScreen(pushedPageConfig);
 
-    if (_viewStacks.length - 1 >= viewStackIndex + 1) {
-      _viewStacks.insert(viewStackIndex + 1, viewStack);
+    if (_screens.length - 1 >= viewStackIndex + 1) {
+      _screens.insert(viewStackIndex + 1, viewStack);
     } else {
-      _viewStacks.add(viewStack);
+      _screens.add(viewStack);
     }
 
     notifyListeners();
@@ -194,33 +194,32 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
   Future<dynamic> pushForce({required PageConfig pushedPageConfig}) async {
     if (_isViewExist(pushedPageConfig.name)) return;
 
-    ViewStack viewStack = ViewStack(pushedPageConfig);
+    WhaleScreen viewStack = WhaleScreen(pushedPageConfig);
 
-    _viewStacks.add(viewStack);
+    _screens.add(viewStack);
 
     notifyListeners();
   }
 
   void pop({required String viewName, bool forceYn = false, dynamic argument}) {
-    final idx =
-        _viewStacks.indexWhere((element) => element.viewName == viewName);
+    final idx = _screens.indexWhere((element) => element.viewName == viewName);
 
     if (idx == -1) {
       return;
     }
-    _viewStacks.removeAt(idx);
+    _screens.removeAt(idx);
 
     notifyListeners();
   }
 
   void _popLast() {
-    ViewStack last = _viewStacks.last;
+    WhaleScreen last = _screens.last;
 
-    if (last.stack.length > 1) {
-      last.stack.removeLast();
+    if (last.pages.length > 1) {
+      last.pages.removeLast();
     } else {
-      if (_viewStacks.length > 1) {
-        _viewStacks.remove(last);
+      if (_screens.length > 1) {
+        _screens.remove(last);
       }
     }
 
@@ -229,12 +228,12 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
 
   void popUntil({required String viewName}) {
     final index =
-        _viewStacks.indexWhere((element) => element.viewName == viewName);
+        _screens.indexWhere((element) => element.viewName == viewName);
 
-    if (_viewStacks.length == index + 1) {
+    if (_screens.length == index + 1) {
       return;
     } else {
-      _viewStacks.removeRange(index + 1, _viewStacks.length);
+      _screens.removeRange(index + 1, _screens.length);
     }
     notifyListeners();
   }
@@ -245,26 +244,26 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     if (_isViewExist(to.name)) return;
 
     final targetViewIndex =
-        _viewStacks.indexWhere((element) => element.viewName == targetName);
+        _screens.indexWhere((element) => element.viewName == targetName);
 
     if (targetViewIndex == -1) {
       return;
     }
 
-    final newViewStack = ViewStack(to);
-    _viewStacks.insert(targetViewIndex, newViewStack);
-    _viewStacks.removeAt(targetViewIndex + 1);
+    final newViewStack = WhaleScreen(to);
+    _screens.insert(targetViewIndex, newViewStack);
+    _screens.removeAt(targetViewIndex + 1);
 
     notifyListeners();
   }
 
   void replaceAll(List<PageConfig> configurations) {
-    _viewStacks.clear();
+    _screens.clear();
 
-    List<ViewStack> viewStacks =
-        configurations.map((e) => ViewStack(e)).toList();
+    List<WhaleScreen> viewStacks =
+        configurations.map((e) => WhaleScreen(e)).toList();
 
-    _viewStacks.addAll(viewStacks);
+    _screens.addAll(viewStacks);
 
     notifyListeners();
   }
@@ -275,9 +274,9 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     dialog.argument["parent"] = targetName;
 
     final targetViewIndex =
-        _viewStacks.indexWhere((element) => element.viewName == targetName);
+        _screens.indexWhere((element) => element.viewName == targetName);
 
-    final viewStack = _viewStacks[targetViewIndex].stack;
+    final viewStack = _screens[targetViewIndex].pages;
     for (final page in viewStack) {
       PageConfig pageConfig = page.arguments as PageConfig;
 
@@ -295,11 +294,11 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     if (targetName != null && !_isViewExist(targetName)) return;
 
     if (targetName == null) {
-      for (final viewStack in _viewStacks.reversed) {
-        for (final page in viewStack.stack) {
+      for (final viewStack in _screens.reversed) {
+        for (final page in viewStack.pages) {
           final pageConfig = page.arguments as PageConfig;
           if (pageConfig.name == dialogName) {
-            viewStack.stack.remove(page);
+            viewStack.pages.remove(page);
             notifyListeners();
             return;
           }
@@ -308,9 +307,9 @@ class WhaleRouterDelegate extends RouterDelegate<PageConfig>
     }
 
     final targetViewIndex =
-        _viewStacks.indexWhere((element) => element.viewName == targetName);
+        _screens.indexWhere((element) => element.viewName == targetName);
 
-    final viewStack = _viewStacks[targetViewIndex].stack;
+    final viewStack = _screens[targetViewIndex].pages;
 
     int targetIdx = -1;
     for (int i = 0; i < viewStack.length; i++) {
